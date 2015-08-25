@@ -11,7 +11,12 @@ require 'httparty'
 # and then print.
 
 url = ARGF.read
+url.chomp!
 resp = HTTParty.get(url)
 html = resp.body
+
+# from an HTML file...
+# html = File.read('me-im-a-strategist.html')
+
 puts Sebastian.transform(html)
 

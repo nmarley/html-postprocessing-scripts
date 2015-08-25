@@ -4,51 +4,34 @@ require 'pp'
 
 class Sebastian
   class << self
-    # def strip_crap(html, thing)
-    #   re = /(.*)<!--\ BEGIN\ #{thing}\ \/\/\ -->(?:[^\n]*\n)
-    #         (.*)<!--\ \/\/\ END\ #{thing}\ -->(?:[^\n]*\n)(.*)
-    #        /sxum
-
-    #   new_html = html.sub(re) do |m|
-    #     return $1 + $3
-    #   end
-    # end
 
     def transform(html)
-
-      # html = strip_crap(html, 'PREHEADER')
-      # html = strip_crap(html, 'HEADER')
-      # html = strip_crap(html, 'FOOTER')
-      # puts html
-
       doc = Nokogiri::HTML(html)
-      doc.css('#awesomewrap').remove
-      # ap doc.methods
-      doc.css('script').remove                             # Remove <script>…</script>
 
+      # Remove <script>…</script>
+      doc.css('script').remove
 
-      # doc.css('link[href="http://us5.campaign-archive2.com/css/archivebar-desktop.css"]').remove
-      # link rel="stylesheet" href="http://us5.campaign-archive1.com/css/archivebar-desktop.css
+      # remove nav elements and contents
+      doc.css('nav').remove
 
-      bad = []
-      doc.css('link').each do |link|
-        href = link['href']
-        if href.match(/archivebar.*?css/)
-          bad.push( href )
-        end
-      end
+      # rm iframes
+      doc.css('iframe').remove
 
-      bad.each do |href|
-        link_match = 'link[href="' + href + '"]'
-        doc.css(link_match).remove
-      end
+      doc.css('div#side_panel').remove
+      doc.css('div#codeholder').remove
+      doc.css('ul.post-actions').remove
+      doc.css('div.responses').remove
 
-      doc.css('table.mcnShareBlock').remove
-      doc.css('table.mcnDividerBlock').remove
+      doc.css('div#footer').remove
+      doc.css('#readnext').remove
 
-      # TODO: change width attr from 600 to 900 where:...
-      # <table class="mcnTextContentContainer"
-      doc.css('table.mcnTextContentContainer')[0]['width'] = '900'
+      doc.css('div.modal').remove
+      doc.css('div.modal-dialog').remove
+      doc.css('div.modal-content').remove
+
+      doc.css('.byline-author-extended').remove
+      doc.css('.post-admin').remove
+
 
       html = doc.to_html
     end
