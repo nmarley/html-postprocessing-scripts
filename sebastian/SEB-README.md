@@ -1,4 +1,16 @@
 
+
+Wanted to use a Ruby ORM and I like and am familiar with ActiveRecord, but
+don't want to do a full-blown Rails app for this.
+
+I also like Rails DB migrations as opposed to managing the DB schema myself.
+
+So, as a result, went with standalone ActiveRecord to reduce (well, eliminate)
+learning curve, and the [standalone-migrations](https://github.com/thuss
+/standalone-migrations) gem.
+
+
+
 # archive page url, currently the oldest
 http://sebastianmarshall.com/page/146
 
