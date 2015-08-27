@@ -5,17 +5,17 @@
 # Example of using ActiveRecord without Rails to query a (Postgres) DB.
 
 require 'active_record'
-require 'pp'
 
 ActiveRecord::Base.establish_connection(
   adapter:  'postgresql',
-  database: 'sebastmarsh',
+  database: 'sebastmarsh_dev',
   username: 'sebastmarsh'
 )
 
 class Post < ActiveRecord::Base
+  validates :slug, presence: true,
+    uniqueness: { case_sensitive: false }
 end
 
-pp Post.first
-
-
+# pp Post.first
+# Post.new
