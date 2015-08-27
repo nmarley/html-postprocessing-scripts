@@ -17,7 +17,8 @@ end
 
 class Post < ActiveRecord::Base
   def get_url
-    self.slug.empty? ? "uid/#{self.post_uid}" : self.slug
+    # self.slug.empty? ? "uid/#{self.post_uid}" : self.slug
+    "uid/#{self.post_uid}"
   end
 end
 
