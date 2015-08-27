@@ -4,7 +4,8 @@ require './sebastian'
 require './arec'
 
 # http://sebastianmarshall.com/page/146
-(1..144).to_a.reverse.each do |num|
+
+# (1..139).to_a.reverse.each do |num|
   url = Sebastian::ROOT + "page/#{num}"
   html = Sebastian.fetch(url).body
 
@@ -17,6 +18,5 @@ require './arec'
 
   # TODO... change this one... maybe more frequent, and maybe less for the
   # actual fetcher
-  sleep rand(5..15)
+  sleep rand(3..8)
 end
-
