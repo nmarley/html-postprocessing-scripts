@@ -4,8 +4,8 @@ require './arec'
 require './sebastian'
 require 'pp'
 
-# TODO: remove limit here & let fly... (INCREASE SLEEP BELOW, ALSO)
-posts = Post.where(orig_html: '').order(:posted_at).limit(10)
+#posts = Post.where(orig_html: '').order(:posted_at).limit(10)
+posts = Post.where(orig_html: '').order(:posted_at)
 
 posts.each do |post|
   url = Sebastian::ROOT + post.get_url
@@ -16,6 +16,7 @@ posts.each do |post|
   post.fetched_at = fetched_at
   post.save!
 
-  sleep rand(3..7)
+  # sleep rand(3..5)
+  # sleep 1
 end
 
