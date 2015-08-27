@@ -27,6 +27,26 @@ class Sebastian
       html = doc.to_html
     end
 
+
+    def parse_archive_page(html)
+      doc = Nokogiri::HTML(html)
+
+      doc.css('#post-0-0').remove
+
+      # slugs = doc.search('div[data-type="post"]').map {|thing| thing['data-slug'] }
+      doc.search('div[data-type="post"]').each do |div|
+        pp div['data-slug']
+
+        time_span = div.search('span[title]').first
+        post_time = Time.parse(time_span['title'])
+
+        div
+      end
+
+      html = doc.to_html
+      html = 'hi'
+    end
+
     private
     def remove_crap(doc)
       bad_css_selectors = %w[
