@@ -2,10 +2,20 @@ require 'nokogiri'
 require 'date'
 require 'time'
 require 'awesome_print'
+require 'httparty'
 require 'pp'
 
 class Sebastian
+
+  # Chrome UA
+  UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36'
+  ROOT = 'http://sebastianmarshall.com/'
+
   class << self
+    def fetch(url)
+      resp = HTTParty.get(url, headers: {"User-Agent" => Sebastian::UA})
+    end
+
     def transform(html)
       doc = Nokogiri::HTML(html)
 
@@ -27,24 +37,26 @@ class Sebastian
       html = doc.to_html
     end
 
-
     def parse_archive_page(html)
       doc = Nokogiri::HTML(html)
 
       doc.css('#post-0-0').remove
 
-      # slugs = doc.search('div[data-type="post"]').map {|thing| thing['data-slug'] }
+      posts = []
+
       doc.search('div[data-type="post"]').each do |div|
-        pp div['data-slug']
-
         time_span = div.search('span[title]').first
-        post_time = Time.parse(time_span['title'])
+        post_time = Time.parse(time_span['title'] + " UTC") # assume UTC
 
-        div
+        meta = {
+          slug: div['data-slug'],
+          posted_at: post_time,
+        }
+
+        posts.push(meta)
       end
 
-      html = doc.to_html
-      html = 'hi'
+      posts
     end
 
     private

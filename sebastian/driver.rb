@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby
 
 require './sebastian'
+require './arec'
 require 'httparty'
 
 # usage: echo 'sebastian-url' | script > out.html
@@ -20,6 +21,11 @@ require 'httparty'
 # puts Sebastian.transform(html)
 
 html = File.read('146.html')
-puts Sebastian.parse_archive_page(html)
+posts = Sebastian.parse_archive_page(html)
 
+posts.each do |meta|
+  post = Post.find_or_initialize_by(slug: meta[:slug])
+  post[:posted_at] = meta[:posted_at]
+  post.save!
+end
 
