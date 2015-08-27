@@ -8,7 +8,8 @@ require 'pp'
 posts = Post.where(orig_html: '').order(:posted_at).limit(10)
 
 posts.each do |post|
-  url = Sebastian::ROOT + post.slug
+  url = Sebastian::ROOT + post.get_url
+
   html = Sebastian.fetch(url).body
   fetched_at = Time.now.getutc
   post.orig_html = html
