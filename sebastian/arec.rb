@@ -17,3 +17,6 @@ class Post < ActiveRecord::Base
     uniqueness: { case_sensitive: false }
 end
 
+class Stat < ActiveRecord::Base
+end
+

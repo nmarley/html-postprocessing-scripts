@@ -5,9 +5,14 @@ require './arec'
 
 # http://sebastianmarshall.com/page/146
 
-# (1..139).to_a.reverse.each do |num|
+# fetch stats/metadata
+stat = Stat.first
+starting_page = stat.last_archive_page_fetched - 1
+
+(1..starting_page).to_a.reverse.each do |num|
   url = Sebastian::ROOT + "page/#{num}"
   html = Sebastian.fetch(url).body
+  stat.last_archive_page_fetched = num
 
   posts = Sebastian.parse_archive_page(html)
   posts.each do |meta|
@@ -16,7 +21,7 @@ require './arec'
    post.save!
   end
 
-  # TODO... change this one... maybe more frequent, and maybe less for the
-  # actual fetcher
+  stat.save
+
   sleep rand(3..8)
 end
