@@ -17,5 +17,3 @@ class Post < ActiveRecord::Base
     uniqueness: { case_sensitive: false }
 end
 
-# pp Post.first
-# Post.new
