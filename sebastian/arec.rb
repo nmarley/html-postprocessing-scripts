@@ -12,11 +12,14 @@ ActiveRecord::Base.establish_connection(
   username: 'sebastmarsh'
 )
 
+class ArchivePage < ActiveRecord::Base
+end
+
 class Post < ActiveRecord::Base
-  validates :slug, presence: true,
-    uniqueness: { case_sensitive: false }
+  def get_url
+    self.slug.empty? ? "uid/#{self.post_uid}" : self.slug
+  end
 end
 
 class Stat < ActiveRecord::Base
 end
-

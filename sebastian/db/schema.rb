@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150827180257) do
+ActiveRecord::Schema.define(version: 20150827195504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "archive_pages", force: :cascade do |t|
+    t.integer  "number"
+    t.datetime "fetched_at"
+    t.text     "orig_html",       default: ""
+    t.boolean  "indexed_entries", default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "archive_pages", ["number"], name: "index_archive_pages_on_number", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "slug"
@@ -24,10 +35,12 @@ ActiveRecord::Schema.define(version: 20150827180257) do
     t.text     "cleaned_html", default: ""
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.integer  "post_uid"
   end
 
+  add_index "posts", ["post_uid"], name: "index_posts_on_post_uid", unique: true, using: :btree
   add_index "posts", ["posted_at"], name: "index_posts_on_posted_at", using: :btree
-  add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree
+  add_index "posts", ["slug"], name: "index_posts_on_slug", using: :btree
 
   create_table "stats", force: :cascade do |t|
     t.integer "last_archive_page_fetched", default: 0
