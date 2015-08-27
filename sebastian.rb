@@ -1,40 +1,60 @@
 require 'nokogiri'
+require 'date'
+require 'time'
 require 'awesome_print'
 require 'pp'
 
 class Sebastian
   class << self
-
     def transform(html)
       doc = Nokogiri::HTML(html)
 
-      # Remove <script>…</script>
-      doc.css('script').remove
+      # remove crap...
+      doc = remove_crap(doc)
 
-      # remove nav elements and contents
-      doc.css('nav').remove
+      # get the Sett post ID (in case we need it later?)
+      uid = doc.search('div[data-uid]').first['data-uid']
 
-      # rm iframes
-      doc.css('iframe').remove
+      # gets a handle to the span element with the time...
+      time_span = doc.search('span[title]').first
 
-      doc.css('div#side_panel').remove
-      doc.css('div#codeholder').remove
-      doc.css('ul.post-actions').remove
-      doc.css('div.responses').remove
+      # parses the time so that we can format it our way...
+      post_time = Time.parse(time_span['title'])
 
-      doc.css('div#footer').remove
-      doc.css('#readnext').remove
-
-      doc.css('div.modal').remove
-      doc.css('div.modal-dialog').remove
-      doc.css('div.modal-content').remove
-
-      doc.css('.byline-author-extended').remove
-      doc.css('.post-admin').remove
-
+      # now we put it back into the page, formatted!
+      time_span.content = post_time.strftime('%Y-%m-%d %H:%M:%S')
 
       html = doc.to_html
     end
+
+    private
+    def remove_crap(doc)
+      bad_css_selectors = %w[
+        script
+        nav
+        iframe
+        div#side_panel
+        div#codeholder
+        ul.post-actions
+        div.responses
+        div#footer
+        #readnext
+        div.modal
+        div.modal-dialog
+        div.modal-content
+        .byline-author-extended
+        .post-admin
+        div#post-0-0
+      ]
+
+      bad_css_selectors.each do |bad|
+        doc.css(bad).remove
+      end
+
+      return doc
+    end
+
+
   end
 end
 
