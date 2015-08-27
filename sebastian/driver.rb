@@ -17,10 +17,10 @@ require 'httparty'
 # html = resp.body
 
 # from an HTML file...
-# html = File.read('me-im-a-strategist.html')
+# html = File.read('data/me-im-a-strategist.html')
 # puts Sebastian.transform(html)
 
-html = File.read('146.html')
+html = File.read('data/146.html')
 posts = Sebastian.parse_archive_page(html)
 
 posts.each do |meta|
