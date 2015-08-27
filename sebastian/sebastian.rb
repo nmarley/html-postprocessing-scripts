@@ -47,10 +47,12 @@ class Sebastian
       doc.search('div[data-type="post"]').each do |div|
         time_span = div.search('span[title]').first
         post_time = Time.parse(time_span['title'] + " UTC") # assume UTC
+        post_uid = div['data-uid']
 
         meta = {
           slug: div['data-slug'],
           posted_at: post_time,
+          post_uid: post_uid,
         }
 
         posts.push(meta)
