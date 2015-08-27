@@ -5,7 +5,7 @@ require './sebastian'
 require 'pp'
 
 # TODO: remove limit here & let fly... (INCREASE SLEEP BELOW, ALSO)
-posts = Post.where(orig_html: '').order(:posted_at).limit(2)
+posts = Post.where(orig_html: '').order(:posted_at).limit(10)
 
 posts.each do |post|
   url = Sebastian::ROOT + post.slug
