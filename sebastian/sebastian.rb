@@ -28,6 +28,10 @@ class Sebastian
       end
     end
 
+    def filesystem_path
+      File.join( Sebastian::HTML_DIR, html_filename )
+    end
+
     private
     def html_filename
       self.post_uid.to_s + '.html'
