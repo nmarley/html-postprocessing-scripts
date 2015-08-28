@@ -1,11 +1,11 @@
 #! /usr/bin/env ruby
 
-require './arec'
 require './sebastian'
 require 'pp'
+Sebastian::DB.connect
 
-#posts = Post.where(orig_html: '').order(:posted_at).limit(10)
-posts = Post.where(orig_html: '').order(:posted_at)
+#posts = Sebastian::Post.where(orig_html: '').order(:posted_at).limit(10)
+posts = Sebastian::Post.where(orig_html: '').order(:posted_at)
 
 posts.each do |post|
   url = Sebastian::ROOT + post.get_url

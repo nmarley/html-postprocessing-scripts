@@ -1,8 +1,8 @@
 #! /usr/bin/env ruby
 
 require './sebastian'
-require './arec'
 require 'httparty'
+Sebastian::DB.connect
 
 # usage: echo 'sebastian-url' | script > out.html
 # then view 'out.html' in browser ( echo file://`pwd`/out.html | pbcopy )
@@ -24,8 +24,7 @@ html = File.read('data/146.html')
 posts = Sebastian.parse_archive_page(html)
 
 posts.each do |meta|
-  post = Post.find_or_initialize_by(slug: meta[:slug])
+  post = Sebastian::Post.find_or_initialize_by(slug: meta[:slug])
   post[:posted_at] = meta[:posted_at]
   post.save!
 end
-

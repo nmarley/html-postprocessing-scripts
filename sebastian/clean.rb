@@ -1,10 +1,10 @@
 #! /usr/bin/env ruby
 
-require './arec'
 require './sebastian'
 require 'pp'
+Sebastian::DB.connect
 
-posts = Post.where(cleaned_html: '').each do |post|
+posts = Sebastian::Post.where(cleaned_html: '').each do |post|
   html = post.orig_html
   clean = Sebastian.transform(html)
 
