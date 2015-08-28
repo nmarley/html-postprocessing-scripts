@@ -1,12 +1,12 @@
 #! /usr/bin/env ruby
 
 require './sebastian'
-require './arec'
+Sebastian::DB.connect
 
 # http://sebastianmarshall.com/page/146
 
 # fetch stats/metadata
-stat = Stat.first
+stat = Sebastian::Stat.first
 starting_page = stat.last_archive_page_fetched - 1
 
 (1..starting_page).to_a.reverse.each do |num|
@@ -15,7 +15,7 @@ starting_page = stat.last_archive_page_fetched - 1
   fetched_at = Time.now.getutc
   stat.last_archive_page_fetched = num
 
-  ap = ArchivePage.find_or_initialize_by(number: num)
+  ap = Sebastian::ArchivePage.find_or_initialize_by(number: num)
   ap.fetched_at = fetched_at
   ap.orig_html = html
   ap.save!
