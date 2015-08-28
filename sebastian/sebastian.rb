@@ -4,12 +4,54 @@ require 'time'
 require 'awesome_print'
 require 'httparty'
 require 'pp'
+require 'active_record'
 
 class Sebastian
+  class ArchivePage < ActiveRecord::Base
+  end
+
+  class Post < ActiveRecord::Base
+    def get_url
+      # self.slug.empty? ? "uid/#{self.post_uid}" : self.slug
+      "uid/#{self.post_uid}"
+    end
+
+    # pass the dir to which to write the HTML file -
+    # filename is <UID>.html
+    # def write_html(dir, overwrite=false)
+    def write_html(overwrite=false)
+      Dir.exists?(Sebastian::HTML_DIR) || Dir.mkdir(Sebastian::HTML_DIR)
+
+      abs = File.join(Sebastian::HTML_DIR, html_filename)
+      if (!File.exists?(abs) || (File.exists?(abs) && overwrite))
+        File.open(abs, 'w') { |f| f.write( self.cleaned_html ) }
+      end
+    end
+
+    private
+    def html_filename
+      self.post_uid.to_s + '.html'
+    end
+  end
+
+  class Stat < ActiveRecord::Base
+  end
+
+  class DB
+    def self.connect
+      ActiveRecord::Base.establish_connection(
+        adapter:  'postgresql',
+        database: 'sebastmarsh_dev',
+        username: 'sebastmarsh'
+      )
+    end
+  end
 
   # Chrome UA
   UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36'
   ROOT = 'http://sebastianmarshall.com/'
+  PROJECT_ROOT = '/Users/nmarley/projects/altucher-proc/sebastian'
+  HTML_DIR = PROJECT_ROOT + "/html"
 
   class << self
     def fetch(url)
