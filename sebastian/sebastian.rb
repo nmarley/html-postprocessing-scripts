@@ -24,7 +24,6 @@ class Sebastian
 
     # pass the dir to which to write the HTML file -
     # filename is <UID>.html
-    # def write_html(dir, overwrite=false)
     def write_html(overwrite=false)
       Dir.exists?(Sebastian::HTML_DIR) || Dir.mkdir(Sebastian::HTML_DIR)
 
@@ -60,7 +59,7 @@ class Sebastian
   UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36'
   ROOT = 'http://sebastianmarshall.com/'
   PROJECT_ROOT = '/Users/nmarley/projects/altucher-proc/sebastian'
-  HTML_DIR = PROJECT_ROOT + "/html"
+  HTML_DIR = PROJECT_ROOT + "/site/html"
 
   class << self
     def fetch(url)

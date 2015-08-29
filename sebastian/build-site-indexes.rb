@@ -7,7 +7,6 @@ require 'pp'
 Sebastian::DB.connect
 PerPage = 100
 
-
 def get_ul(page_num, per_page = 10)
   ul = ''
   ul += '<ul class="post-list">' + "\n"
@@ -51,10 +50,24 @@ def build_page_indexes
       f.puts erb.result binding
     end
   end
+end
 
+def build_root_index
+  entries = Dir.glob("site/page*")
+  @gendex = ""
+  entries.sort_by { |ent| (ent.sub /^site\/page/, '').to_i }.each do |page|
+    page.sub! /^site\//, ''
+    @gendex += "<a href=\"#{page}\">#{page}</a><br>\n"
+  end
+
+  fn = "site/index.html"
+  File.open(fn, 'w') do |f|
+    erb = ERB.new(File.read('gendex.html.erb'))
+    f.puts erb.result binding
+  end
 end
 
 
 build_page_indexes()
-
+build_root_index()
 
