@@ -26,7 +26,7 @@ def get_page(page_num, per_page = 10)
 
     ddate = post.posted_at.strftime("%Y-%m-%d %H:%M")
     #furl = "#{post.filesystem_path}"
-    furl = "html/#{post.html_filename}"
+    furl = "/html/#{post.html_filename}"
     atext = "#{ddate} | #{post.slug}"
     a = "<a href=\"#{furl}\">#{atext}</a>"
     list.push( a )
