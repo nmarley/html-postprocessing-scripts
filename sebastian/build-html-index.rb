@@ -5,14 +5,17 @@ require 'pp'
 
 Sebastian::DB.connect
 
-# select posted_at, slug from posts order by posted_at limit 70;
-Sebastian::Post.order(:posted_at).select(:posted_at, :slug, :post_uid).limit(7).each do |post|
-  puts "<li>"
-  ddate = post.posted_at.strftime("%Y-%m-%d %H%M")
-  furl = "file://#{post.filesystem_path}"
-  atext = "#{ddate} - #{post.slug}"
+Sebastian::Post.order(:posted_at)
+  .select(:posted_at, :slug, :post_uid)
+  .paginate(page: 2, per_page: 10)
+  .each do |post|
+
+  ddate = post.posted_at.strftime("%Y-%m-%d %H:%M")
+  #furl = "#{post.filesystem_path}"
+  furl = "#{post.html_filename}"
+  atext = "#{ddate} | #{post.slug}"
   a = "<a href=\"#{furl}\">#{atext}</a>"
-  puts furl
-  puts "</li>"
+  puts "<li>#{a}</li>"
 end
+
 
