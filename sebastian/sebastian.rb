@@ -14,9 +14,13 @@ class Sebastian
 
   class Post < ActiveRecord::Base
     def get_url
-      # self.slug.empty? ? "uid/#{self.post_uid}" : self.slug
       "uid/#{self.post_uid}"
     end
+
+    def get_full_uri
+      Sebastian::ROOT + self.get_url
+    end
+
 
     # pass the dir to which to write the HTML file -
     # filename is <UID>.html
@@ -106,6 +110,11 @@ class Sebastian
       end
 
       posts
+    end
+
+    def archive_page_url(num)
+      url = Sebastian::ROOT + "page/#{num}"
+      url
     end
 
     private
