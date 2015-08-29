@@ -5,6 +5,8 @@ require 'awesome_print'
 require 'httparty'
 require 'pp'
 require 'active_record'
+require 'will_paginate'
+require 'will_paginate/active_record'
 
 class Sebastian
   class ArchivePage < ActiveRecord::Base
@@ -32,7 +34,6 @@ class Sebastian
       File.join( Sebastian::HTML_DIR, html_filename )
     end
 
-    private
     def html_filename
       self.post_uid.to_s + '.html'
     end
