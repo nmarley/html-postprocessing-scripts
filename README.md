@@ -25,11 +25,24 @@ learning curve, and the [standalone-migrations](https://github.com/thuss
 /standalone-migrations) gem.
 
 
-#### Sebastian posts - 3 phases of processing (maybe 4)
+#### Sebastian posts - 3 main phases of processing
 
-1. Build index of all old posts, starting w/oldest (above), and going forward
-   in time.
-1. Fetch all old pages once index is built with URL list... space out fetches
-   every few seconds/minutes or so.
-1. Then convert all using our scripts.
+1. Build index of all old posts (update-index.rb)
+1. Fetch all un-fetched pages (fetcher.rb)
+1. Clean all fetched pages (clean.rb)
+
+Script ```update-index.rb``` ensures all post metadata is in DB.
+
+Script ```fetcher.rb``` will go through and fetch the posts, store "ugly" HTML
+in DB.
+
+Script ```clean.rb``` clean the "ugly" HTML, and store that output in DB also.
+
+
+The ugly HTML stays in DB, unless manually cleaned. But that would break the
+flow.
+
+#### TODO:
+
 1. Script the Chrome PDF rendering if possible
+
