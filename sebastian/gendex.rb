@@ -6,8 +6,6 @@ require 'erb'
 Dir.chdir('site')
 entries = Dir.glob("page*")
 
-#Dir.chdir('/Users/nmarley/projects/altucher-proc/sebastian')
-
 @gendex = ""
 entries.sort_by { |ent| (ent.sub /^page/, '').to_i }.each do |p|
   @gendex += "<a href=\"#{p}\">#{p}</a><br>\n"
