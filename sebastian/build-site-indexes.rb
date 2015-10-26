@@ -34,6 +34,15 @@ def get_page(page_num, per_page = 10)
 end
 
 
+def write_posts_to_filesystem
+  Sebastian::Post.find_each do |post|
+    unless File.exists?("site/html/#{post.post_uid}.html")
+      post.write_html
+    end
+  end
+end
+
+
 def build_page_indexes
   max_pages = (( Sebastian::Post.count - 1) / PerPage) + 1
   out_dir = './site'
@@ -67,7 +76,6 @@ def build_root_index
   end
 end
 
-
-build_page_indexes()
-build_root_index()
-
+write_posts_to_filesystem
+build_page_indexes
+build_root_index
