@@ -75,6 +75,11 @@ class Sebastian
       # get the Sett post ID (in case we need it later?)
       uid = doc.search('div[data-uid]').first['data-uid']
 
+      # use our own modified copy of the CSS stylesheet to fix spacing when
+      # printing
+      user_sheet = doc.search('link#user_sheet').first
+      user_sheet['href'] = '/css/efa3b67a1495768d4d87339bfb830eaf-3.css'
+
       # gets a handle to the span element with the time...
       time_span = doc.search('span[title]').first
 
@@ -134,6 +139,7 @@ class Sebastian
         .byline-author-extended
         .post-admin
         div#post-0-0
+        div.post-header-image
       ]
 
       bad_css_selectors.each do |bad|

@@ -3,5 +3,5 @@
 . ./.env
 
 # copy
-rsync -avz -e ssh --delete html/ "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}"
+rsync -avz -e ssh --delete site/ "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}"
 

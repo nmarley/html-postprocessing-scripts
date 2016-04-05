@@ -8,7 +8,9 @@
 2. ruby fetcher.rb
 3. clean.rb
 
-### To re-gen site from DB:
+### To generate HTML files from DB:
+
+(First, remove files in site/html/ if you want them to be re-generated.)
 
 1. build.rb
 
